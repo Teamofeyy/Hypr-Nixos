@@ -2,7 +2,7 @@
 {
   imports = [
     ./terminals/tmux.nix
-    #./terminals/ghostty.nix
+    ./terminals/ghostty.nix
     ./editors/nixvim.nix
     ./editors/micro.nix
     ./editors/nano.nix
@@ -21,6 +21,11 @@
     # If set here it will break KoolDots theming
     # ./gtk.nix 
   ];
+
+  home.sessionVariables = {
+    TERMINAL = "ghostty";
+    TERM_PROGRAM = "ghostty";
+  };
 
   xdg.configFile."hypr/kooldots-keyboard.conf".text = ''
     input {
@@ -120,5 +125,28 @@ EOF
     if [ -f "$user_animations_lua" ]; then
       ${pkgs.gnused}/bin/sed -i 's/leaf = "borderangle", enabled = true, speed = 180/leaf = "borderangle", enabled = true, speed = 100/' "$user_animations_lua"
     fi
+
+    user_defaults_conf="$HOME/.config/hypr/UserConfigs/01-UserDefaults.conf"
+    if [ -f "$user_defaults_conf" ]; then
+      ${pkgs.gnused}/bin/sed -i 's|^\$term[[:space:]]*=.*|$term = ghostty # Terminal|' "$user_defaults_conf"
+    fi
+
+    lua_defaults="$HOME/.config/hypr/lua/user_defaults.lua"
+    if [ -f "$lua_defaults" ]; then
+      ${pkgs.gnused}/bin/sed -i 's|KOOLDOTS_DEFAULTS\.term = "kitty"|KOOLDOTS_DEFAULTS.term = "ghostty"|' "$lua_defaults"
+    fi
+
+    user_lua_defaults="$HOME/.config/hypr/UserConfigs/user_defaults.lua"
+    if [ -f "$user_lua_defaults" ] && ! ${pkgs.gnugrep}/bin/grep -Fq 'KOOLDOTS_DEFAULTS.term = "ghostty"' "$user_lua_defaults"; then
+      printf '\nKOOLDOTS_DEFAULTS.term = "ghostty"\n' >> "$user_lua_defaults"
+    fi
+
+    rofi_terminal="$HOME/.config/rofi/00-terminal.rasi"
+    if [ -f "$rofi_terminal" ]; then
+      ${pkgs.gnused}/bin/sed -i 's|terminal:[[:space:]]*"[^"]*"|terminal: "ghostty"|' "$rofi_terminal"
+    fi
+
+    ${pkgs.coreutils}/bin/mkdir -p "$HOME/.config/xfce4"
+    printf 'TerminalEmulator=ghostty\n' > "$HOME/.config/xfce4/helpers.rc"
   '';
 }
