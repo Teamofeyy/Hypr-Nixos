@@ -100,6 +100,23 @@
         "type": "github"
       }
     },
+    "echovault": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1774489552,
+        "narHash": "sha256-t0XHASaGJHsAsQ4nacJGPbYPD8OpwGkL9vq1bokz7PA=",
+        "owner": "mraza007",
+        "repo": "echovault",
+        "rev": "d2f5d2d162ed289066c0cd50d727739a13ec80ca",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mraza007",
+        "ref": "v0.4.0",
+        "repo": "echovault",
+        "type": "github"
+      }
+    },
     "fenix": {
       "inputs": {
         "nixpkgs": [
@@ -342,6 +359,7 @@
         "antigravity-cli-repo": "antigravity-cli-repo",
         "awww": "awww",
         "catppuccin": "catppuccin",
+        "echovault": "echovault",
         "home-manager": "home-manager",
         "hyprmod-src": "hyprmod-src",
         "nixpkgs": "nixpkgs_4",

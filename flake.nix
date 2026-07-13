@@ -21,6 +21,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    echovault = {
+      url = "github:mraza007/echovault/v0.4.0";
+      flake = false;
+    };
+
     #  To build from source, not recommended
     # hyprland = {
     #   url = "git+https://github.com/hyprwm/Hyprland?submodules=1";

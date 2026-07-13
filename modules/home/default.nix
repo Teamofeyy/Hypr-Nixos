@@ -15,6 +15,7 @@
     ./cli/htop.nix
     ./cli/tealdeer.nix
     ./cli/starship.nix
+    ./cli/echovault.nix
     ./yazi
     ./overview.nix
     #experimenting with getting dark to work

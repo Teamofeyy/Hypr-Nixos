@@ -115,6 +115,7 @@ in
     nixfmt-tree
     onefetch
     atop
+    telegram-desktop
     go # needed for waybar-weather compile
     bitwardenWeb
     obsidian
