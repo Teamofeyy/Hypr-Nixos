@@ -120,6 +120,7 @@ in
     bitwardenWeb
     obsidian
     vscodium
+    zed-editor
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
     # Update flkake script
     (pkgs.writeShellScriptBin "update" ''
@@ -322,6 +323,8 @@ in
     #  discord  # Move to host pkgs
 
     # Virtuaizaiton
+    remmina # GUI RDP client; enable clipboard sync in the RDP profile
+    freerdp # xfreerdp CLI and RDP backend utilities
     virt-viewer
     libvirt
 

@@ -125,10 +125,29 @@ in
 
   # networking
   networking = {
-    networkmanager.enable = true;
+    networkmanager = {
+      enable = true;
+      plugins = with pkgs; [
+        networkmanager-l2tp
+      ];
+    };
     hostName = "${host}";
     timeServers = options.networking.timeServers.default ++ [ "pool.ntp.org" ];
   };
+
+  systemd.tmpfiles.rules = [
+    "d /etc/ipsec.d 0700 root root -"
+  ];
+
+  environment.etc."strongswan.conf".text = ''
+    charon {
+      plugins {
+        stroke {
+          secrets_file = /etc/ipsec.secrets
+        }
+      }
+    }
+  '';
 
   # Set your time zone.
   services.automatic-timezoned.enable = false;

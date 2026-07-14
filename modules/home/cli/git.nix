@@ -1,4 +1,7 @@
-{ lib, ... }:
+{ host, ... }:
+let
+  inherit (import ../../../hosts/${host}/variables.nix) gitEmail gitUsername;
+in
 {
   programs.ssh = {
     enable = true;
@@ -48,16 +51,21 @@
         };
       }
       {
-        condition =
-        "hasconfig:remote.*.url:ssh://git@gitlab.internal.madrigal.ru/**";
+        condition = "hasconfig:remote.*.url:ssh://git@gitlab.internal.madrigal.ru/**";
         contents.user = {
           name = "Тимофей Марченко";
           email = "t.marchenko@madrigal.expert";
         };
       }
       {
-        condition =
-        "hasconfig:remote.*.url:https://gitlab.internal.madrigal.ru/**";
+        condition = "hasconfig:remote.*.url:git@gitlab.internal.madrigal.ru:**";
+        contents.user = {
+          name = "Тимофей Марченко";
+          email = "t.marchenko@madrigal.expert";
+        };
+      }
+      {
+        condition = "hasconfig:remote.*.url:https://gitlab.internal.madrigal.ru/**";
         contents.user = {
           name = "Тимофей Марченко";
           email = "t.marchenko@madrigal.expert";
@@ -65,14 +73,13 @@
       }
     ];
 
-    # If you want to set identity per-host, you can do it in a small overlay
-    # or via host variables. Leaving these unset keeps git functional and avoids
-    # a build-time dependency on external variables.
-    # userName = "Your Name";
-    # userEmail = "you@example.com";
-
     settings = {
+      user = {
+        name = gitUsername;
+        email = gitEmail;
+      };
       push.default = "simple"; # Match modern push behavior
+      push.autoSetupRemote = true;
       credential.helper = "cache --timeout=7200";
       init.defaultBranch = "main"; # Set default new branches to 'main'
       log.decorate = "full"; # Show branch/tag info in git log
